@@ -74,7 +74,7 @@ const webrtc = new LioWebRTC({
 ### Join a room once it's ready
 
 ```js
-webrtc.on('ready', () => {
+webrtc.on('connectionReady', () => {
     // Joins a room if it exists, creates it if it doesn't
     webrtc.joinRoom('your room name');
 });
