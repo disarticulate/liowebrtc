@@ -1,0 +1,43 @@
+FROM debian:jessie
+
+RUN apt-get update && apt-get install -y build-essential \
+    dpkg-dev \
+    libssl-dev \
+    curl \
+    software-properties-common \
+    g++-4.8
+
+RUN curl -sL https://deb.nodesource.com/setup_12.x | bash -
+RUN apt-get install nodejs
+
+ARG APP_ROOT
+ENV APP_ROOT ${APP_ROOT:-/src}
+
+ARG UID
+ENV UID ${UID:-1000}
+
+ARG GID
+ENV GID ${GID:-1000}
+
+RUN adduser \
+    --uid $UID \
+    --disabled-password \
+    --gecos '' \
+    node
+
+USER node
+
+ENV APP_ROOT /home/node${APP_ROOT}
+
+RUN mkdir ${APP_ROOT}
+WORKDIR ${APP_ROOT}
+
+COPY package.json ${APP_ROOT}/package.json
+RUN CXX=4.8; npm install --no-optional
+
+COPY . ${APP_ROOT}
+
+VOLUME ${APP_ROOT}/dist
+#RUN chown -R $UID:$GID ${APP_ROOT}
+
+CMD npm run build

@@ -1,6 +1,18 @@
-version: "3"
+version: "3.7"
 
 services:
+  liowebrtc:
+    build:
+      context: .
+      dockerfile: Dockerfile.production
+      args:
+        APP_ROOT: ${APP_ROOT:-/app}
+        #must export UID
+        UID: "${UID}"
+        GID: "${UID}"
+    volumes:
+      - ./dist:/home/node/app/dist
+
   docusaurus:
     build: .
     ports:

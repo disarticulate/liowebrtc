@@ -1,0 +1,4 @@
+#!/bin/bash
+
+rm -rf dist/*
+export UID; docker-compose build liowebrtc && docker-compose up liowebrtc
