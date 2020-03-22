@@ -12,7 +12,7 @@ class LioWebRTC extends WildEmitter {
     super();
     const self = this;
     const options = opts || {};
-    this.config = defaultConfig;
+    this.config = { ...defaultConfig };
     const config = this.config;
 
     this.peerDataCache = {};
